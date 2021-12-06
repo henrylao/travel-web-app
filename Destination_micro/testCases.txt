@@ -1,0 +1,6 @@
+{"place": "New York",
+"country" : " USA",
+"latitude": "50",
+"longitude": "45",
+"info": "No info yet",
+"image": "No Image"}
