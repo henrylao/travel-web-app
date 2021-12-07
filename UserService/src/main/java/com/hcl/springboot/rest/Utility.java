@@ -11,13 +11,13 @@ public class Utility {
     /**
      * GET Method for querying REST API endpoints for JSON Arrays
      *
-     * @param uriEndpoint String | Ex. http://localhost:%d//%s//%s
-     * @param port - int
-     * @param resourceName - String | Ex. http://localhost:[port]//[resourceName]//[extension]
-     * @param extension - String | Ex. http://localhost:[port]//[resourceName]//[extension]
+     * @param uriEndpoint Ex. http://localhost:%d//%s//%s
+     * @param port
+     * @param resourceName
+     * @param extension
      * @return - String | body of the response
      */
-    public static String getJSONArrayAt(String uriEndpoint, int port, String resourceName, String extension) {
+    public static String getJSONAtEndpoint(String uriEndpoint, int port, String resourceName, String extension) {
 //        final String uri = String.format("http://localhost:%d//%s//%s", port, resourceName, extension);
         final String uri = String.format(uriEndpoint, port, resourceName, extension);
         logger.trace(uri);
@@ -26,4 +26,5 @@ public class Utility {
         logger.trace(String.valueOf(response));
         return String.valueOf(response.getBody());
     }
+
 }

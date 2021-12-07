@@ -5,14 +5,15 @@ package com.hcl.destinationservice.models;/*
  */
 import javax.persistence.*;
 
-@Table(schema = "destinations")
 @Entity
+@Table(name = "destinations")
 public class Destination {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.AUTO)
 	//TO-DO: INCREMENT THE ID FOR MONGODB
 	@Column(name="id")
-	private int id;
+	private Integer id;
 	private String place;
 	private String country;
 	private float latitude;
@@ -24,7 +25,7 @@ public class Destination {
 
 	}
 
-	public Destination(int destId, String place, String country, float latitude, float longitude, String info,
+	public Destination(Integer destId, String place, String country, float latitude, float longitude, String info,
 					   String image) {
 		super();
 		this.id = destId;
@@ -36,10 +37,10 @@ public class Destination {
 		this.image = image;
 	}
 
-	public int getDestId() {
+	public Integer getDestId() {
 		return id;
 	}
-	public void setDestId(int destId) {
+	public void setDestId(Integer destId) {
 		this.id = destId;
 	}
 	public String getPlace() {

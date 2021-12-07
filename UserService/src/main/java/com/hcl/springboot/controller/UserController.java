@@ -1,10 +1,10 @@
 package com.hcl.springboot.controller;
 
-//import com.hcl.userservice.respository.UserRepository;
-
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.hcl.springboot.controller.http.UserRoute;
+import com.hcl.springboot.model.Destination;
+import com.hcl.springboot.model.Recommendation;
 import com.hcl.springboot.model.Review;
 import com.hcl.springboot.model.User;
 import com.hcl.springboot.respository.UserRepository;
@@ -22,7 +22,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//@CrossOrigin(origins = "http://localhost:8080")
+// TODO: segment the class into handlers for the various HTTP Methods to reduce code footprint
+@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/api/v1")
 public class UserController
@@ -57,8 +58,6 @@ public class UserController
                 logger.trace("GET method all users");
                 userRepository.findAll().forEach(users::add);
             }
-//            else
-//                userRepository.findByTitleContaining(title).forEach(users::add);
 
             if (users.isEmpty()) {
                 logger.trace("GET method all users -- empty");
@@ -87,7 +86,7 @@ public class UserController
         Optional<User> userData = userRepository.findById(user_id);
 
         // TODO: add GET to Review REST API endpoint to query by author == user_id
-        String reviewsJsonStr = Utility.getJSONArrayAt(
+        String reviewsJsonStr = Utility.getJSONAtEndpoint(
                 "http://localhost:%d//%s//%s",
                 8085,
                 "reviews",
@@ -103,7 +102,6 @@ public class UserController
         logger.trace("GSON: " + reviews.toString());
         logger.trace(String.valueOf(userData.get().getUserId()));
 
-
         // TODO: reviews needs an endpoint for searching by Author
         // current implementation simply aggregates all reviews and returns
         List<Review> reviewList = new ArrayList<>();
@@ -114,10 +112,7 @@ public class UserController
             if (r.isEmpty()) {
                 continue;
             }
-//            author = Integer.getInteger(r.get("author"));
             author = r.get("author");
-//            logger.trace(String.format("author: %d\tuser_id:%d", author, user_id));
-//            if (Integer.getInteger(author).equals(user_id)) {
 
             // check if review's author matches the user's id
             if (author.equals(uid)) {
@@ -139,6 +134,142 @@ public class UserController
             return new ResponseEntity<>(reviewList, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(reviewList, HttpStatus.NO_CONTENT);
+        }
+    }
+
+    /**
+     * GET Method for accessing the list of Destinations based upon Recommendations
+     * associated with the User
+     *
+     * @param user_id
+     * @return
+     * @throws JSONException
+     */
+    @GetMapping("/users/{user_id}/destinations")
+    public ResponseEntity<List<Destination>> getUserDestinationsByRecommendation(@PathVariable("user_id") Integer user_id
+//            , @PathVariable("dest_id" ) Integer dest_id
+    ) throws JSONException {
+        logger.trace("=========== START [GET] User's Destinations by Recommendations ============= ");
+        ResponseEntity<List<Recommendation>> response = this.getUserAllRecommendations(user_id);
+        List<Recommendation> recommendations = response.getBody();
+        // sort destinations by rating
+        List<Destination> destinations = new ArrayList<>();
+        Destination d;
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<String, String>>() {
+        }.getType();
+
+
+        for (Recommendation r : recommendations) {
+//            r.getDestId()
+            String jsonObjectStr = Utility.getJSONAtEndpoint(
+                    "http://localhost:%d//%s//%s",
+                    8100,
+                    "destinations",
+                    String.format("%d", r.getDestId())
+            );
+            Map<String, String> destinationMap = gson.fromJson(jsonObjectStr, type);
+            logger.trace("GSON: " + destinationMap.toString());
+            d = new Destination();
+            logger.trace(destinationMap.get("id"));
+            // TODO: breaking -- unsure why
+//            d.setDestId(Integer.parseInt(destinationMap.get("id")));
+            d.setPlace(destinationMap.get("place"));
+            d.setCountry(destinationMap.get("country"));
+            d.setLatitude(Float.parseFloat(destinationMap.get("latitude")));
+            d.setLongitude(Float.parseFloat(destinationMap.get("longitude")));
+            d.setInfo(destinationMap.get("info"));
+            d.setImage(destinationMap.get("image")); // TODO: this can either be an image hosted somewhere on the cloud
+
+            logger.trace(jsonObjectStr);
+            destinations.add(d);
+        }
+
+        // TODO: sort based on rating
+//        destinations.sort();
+//        Collections.sort(destinations, new Comparator<Destination>() {
+//            @Override
+//            public int compare(Destination o1, Destination o2) {
+//                o1.get
+//            }
+//        })
+
+        logger.trace("=========== END [GET] User's Destinations by Recommendations ============= ");
+        if (destinations.size() < 1) {
+            return new ResponseEntity<>(destinations, HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(destinations, HttpStatus.OK);
+        }
+    }
+
+    /**
+     * GET Method for accessing the list of Recommendations for the User
+     *
+     * @param user_id
+     * @return
+     * @throws JSONException
+     */
+    @GetMapping("/users/{user_id}/recommendations")
+    public ResponseEntity<List<Recommendation>> getUserAllRecommendations(@PathVariable("user_id") Integer user_id) throws JSONException {
+        logger.trace("=========== START [GET] User's Recommendations ============= ");
+        Map<String, Object> rv = new HashMap<>();
+        Optional<User> userData = userRepository.findById(user_id);
+        String resourceStr = "recommendations";
+        // TODO: add GET to Review REST API endpoint to query by author == user_id
+        String reviewsJsonStr = Utility.getJSONAtEndpoint(
+                "http://localhost:%d//%s//%s",
+                8095,
+                "recommendations",
+                ""
+        );
+        logger.trace(String.format("JSON %s:", resourceStr) + reviewsJsonStr);
+
+        // convert from JSON string to Java types
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Map<String, String>>>() {
+        }.getType();
+        List<Map<String, String>> reviews = gson.fromJson(reviewsJsonStr, type);
+        logger.trace("GSON: " + reviews.toString());
+        logger.trace(String.valueOf(userData.get().getUserId()));
+
+        // TODO: reviews needs an endpoint for searching by Author
+        // current implementation simply aggregates all reviews and returns
+        List<Recommendation> recList = new ArrayList<>();
+        Recommendation jsonParsed = null;
+        String author, uid;
+        uid = String.valueOf(user_id);
+        for (Map<String, String> r : reviews) {
+            if (r.isEmpty()) {
+                continue;
+            }
+            author = r.get("author");
+
+            // TODO: assumes `author` is the target User
+            // check if recommendation is intended for the particular User
+            if (author.equals(uid)) {
+                logger.trace("Found matching recommendation by uid: " + author);
+                jsonParsed = new Recommendation();
+                // TODO: this is a bit misleading a recommendation should be described in a
+                //  manner that suggests targeting of a particular object -- a recommendaiton
+                //  in this particular application context is likely to suggest a system that
+                //  generates an output signal (recommendation) based upon the population
+                //  User Reviews, can be extended into a User's set of friends if there is a friend system, etc
+                jsonParsed.setAuthor(author);
+                jsonParsed.setRecommendationId(Long.valueOf(r.get("recommendationId")));
+                jsonParsed.setDestId((long) Integer.parseInt(r.get("destId")));
+                jsonParsed.setRate(Integer.parseInt(r.get("rate")));
+                jsonParsed.setContent(r.get("content"));
+                recList.add(jsonParsed);
+            }
+        }
+
+        logger.trace("Returning " + recList.toString());
+        logger.trace("=========== END [GET] User's Recommendations ============= ");
+
+        if (recList.size() > 0) {
+            return new ResponseEntity<>(recList, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(recList, HttpStatus.NO_CONTENT);
         }
     }
 

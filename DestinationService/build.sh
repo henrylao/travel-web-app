@@ -5,5 +5,5 @@ mvn clean && mvn package
 #mvn clean && mvn package -Dmaven.test.failure.ignore=true -Dmaven.test.skip=true
 
 # Build image and test run in container
-docker build -t henrylao/user-service:latest .
-docker push henrylao
+docker build -t henrylao/destination-service:latest .
+docker push henrylao/destination-service

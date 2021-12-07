@@ -9,12 +9,13 @@ import names
 from pathlib import Path
 
 ROOT = Path(os.getcwd())
-QUANTITY = 100
+QUANTITY = 150
 MODEL = "recommendations"
+
 print(ROOT)
 
-target_path = ROOT/f"test_{MODEL}.sql"
-if os.path.exists(ROOT / f"{MODEL}.sql"):
+target_path = ROOT/f"test_{MODEL}-v3.sql"
+if os.path.exists(ROOT / f"{MODEL}-v3.sql"):
     print("Deleting existing SQL test script:", target_path)
     os.remove(target_path)
 
@@ -53,7 +54,7 @@ def generate_reviews():
             if i == 1:
                 fh.write(CREATE_SQL)
             # author == user_id: int
-            a = i
+            a = random.randint(0, QUANTITY // 3)
             # content: str
             c = content_str * random.randint(1, (i % 11) + 2)
             # destination_id: int

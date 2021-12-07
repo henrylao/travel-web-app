@@ -6,4 +6,4 @@ mvn clean && mvn package
 
 # Build image and test run in container
 docker build -t henrylao/user-service:latest .
-docker push henrylao
+docker push henrylao/eureka-service

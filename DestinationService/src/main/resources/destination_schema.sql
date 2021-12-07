@@ -1,4 +1,4 @@
-CREATE TABLE destination_table.destination
+CREATE TABLE destinations
 (
     id        INT AUTO_INCREMENT NOT NULL,
     place     VARCHAR(255)       NULL,

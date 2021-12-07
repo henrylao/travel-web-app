@@ -1,7 +1,7 @@
 package com.hcl.springboot.model;
 
+import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -46,8 +46,8 @@ public class User implements Serializable {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column(name = "dest_id")
-    private String destId;
+//    @Column(name = "dest_id")
+//    private String destId;
 
     // -----------------------------------------
     //    CONSTRUCTORS
