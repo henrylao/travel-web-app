@@ -1,4 +1,6 @@
-create table users
+use micro;
+drop table user_table;
+create table user_table
 (
     user_id    INT          not null auto_increment,
     email      varchar(255) not null,

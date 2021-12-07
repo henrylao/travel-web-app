@@ -7,16 +7,17 @@ QUANTITY = 100
 print("Running ", __file__)
 MODEL = "user"
 CREATE_SQL = """
-create table user_table
+CREATE TABLE user_table
 (
-    user_id    INT          not null auto_increment,
-    email      varchar(255) not null,
-    is_admin   boolean      null,
-    username   varchar(255) null,
-    first_name varchar(255) null,
-    last_name  varchar(255) null,
-    password   varchar(255) null,
-    PRIMARY KEY (user_id) # column_7 int null
+    user_id    INT          NOT NULL,
+    email      VARCHAR(255) NULL,
+    password   VARCHAR(255) NULL,
+    is_admin   BIT(1)       NULL,
+    username   VARCHAR(255) NULL,
+    first_name VARCHAR(255) NULL,
+    last_name  VARCHAR(255) NULL,
+    CONSTRAINT pk_user_table PRIMARY KEY (user_id)
+);
 );\n
 """
 base_sql = """insert into `user_table`(

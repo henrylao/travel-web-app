@@ -1,26 +1,35 @@
 package com.hcl.springboot.model;
 
+import lombok.Data;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Entity
 //@Table(name = "users_table")
 @Table(name = "user_table")
-//@Data   // useful annotation to reduce boilerplate getter/setter
-public class User implements Serializable {
+@Data   // useful annotation to reduce boilerplate getter/setter
+public class User {
+
+    public User() {
+
+    }
+
+    public void setUserId(int id) {
+        this.id = id;
+    }
+
+    //        implements Serializable {
     // -----------------------------------------
     //    ATTRIBUTES
     // -----------------------------------------
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Integer userId;
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private int id;
 
     @NonNull
     @Column(name = "email")
@@ -52,32 +61,39 @@ public class User implements Serializable {
     // -----------------------------------------
     //    CONSTRUCTORS
     // -----------------------------------------
-    public User() {
+//    public User(Integer userId) {
+//        this.userId = userId;
+//
+//        email = null;
+//        password = null;
+//        username = null;
+//        firstName = null;
+//    }
+//
+//    public User(@NonNull String email,
+//                @NonNull String password, boolean isAdmin, Integer userId) {
+//        this(userId, email, password, false, null, null, null);
+//    }
+//
+//    public User(Integer userId, @NonNull String email,
+//                @NonNull String password,
+//                boolean isAdmin,
+//                @NonNull String username,
+//                @NonNull String firstName,
+//                @NonNull String lastName) {
+//        this.userId = userId;
+//        this.email = email;
+//        this.password = password;
+//        this.isAdmin = isAdmin;
+//        this.username = username;
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//    }
 
-        email = null;
-        password = null;
-        username = null;
-        firstName = null;
-    }
-
-    public User(@NonNull String email,
-                @NonNull String password, boolean isAdmin) {
-        this(email, password, false, null, null, null);
-    }
-
-    public User(@NonNull String email,
-                @NonNull String password,
-                boolean isAdmin,
-                @NonNull String username,
-                @NonNull String firstName,
-                @NonNull String lastName) {
-        this.email = email;
-        this.password = password;
-        this.isAdmin = isAdmin;
-        this.username = username;
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
+//
+//    public User() {
+//        this(null,null,null,false,null,null,null);
+//    }
 
     // -----------------------------------------
     //    GETTERS / SETTERS
@@ -109,7 +125,7 @@ public class User implements Serializable {
     }
 
     public int getUserId() {
-        return userId;
+        return id;
     }
 
 
@@ -137,16 +153,29 @@ public class User implements Serializable {
         this.lastName = lastName;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", isAdmin=" + isAdmin +
-                ", username='" + username + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "User{" +
+//                "userId=" + id +
+//                ", email='" + email + '\'' +
+//                ", password='" + password + '\'' +
+//                ", isAdmin=" + isAdmin +
+//                ", username='" + username + '\'' +
+//                ", firstName='" + firstName + '\'' +
+//                ", lastName='" + lastName + '\'' +
+//                '}';
+//    }
+
+//    @Override
+//    public String toString() {
+//        return "User{" +
+//                "id=" + id +
+//                ", email='" + email + '\'' +
+//                ", password='" + password + '\'' +
+//                ", isAdmin=" + isAdmin +
+//                ", username='" + username + '\'' +
+//                ", firstName='" + firstName + '\'' +
+//                ", lastName='" + lastName + '\'' +
+//                '}';
+//    }
 }

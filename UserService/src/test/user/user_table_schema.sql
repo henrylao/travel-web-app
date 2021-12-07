@@ -1,9 +1,10 @@
 # USE internsample5;
 # DROP TABLE user_table;
+use micro;
 drop table user_table;
 CREATE TABLE user_table
 (
-    user_id    INT AUTO_INCREMENT NOT NULL,
+    id    INT AUTO_INCREMENT NOT NULL,
     email      VARCHAR(255)       NULL,
     password   VARCHAR(255)       NULL,
     is_admin   BIT(1)             NULL,
@@ -11,7 +12,7 @@ CREATE TABLE user_table
     first_name VARCHAR(255)       NULL,
     last_name  VARCHAR(255)       NULL,
     dest_id    VARCHAR(255)       NULL,
-    CONSTRAINT pk_user_table PRIMARY KEY (user_id)
+    CONSTRAINT pk_user_table PRIMARY KEY (id)
 );
 # create table users
 # (

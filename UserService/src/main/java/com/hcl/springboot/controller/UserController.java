@@ -100,7 +100,7 @@ public class UserController
         }.getType();
         List<Map<String, String>> reviews = gson.fromJson(reviewsJsonStr, type);
         logger.trace("GSON: " + reviews.toString());
-        logger.trace(String.valueOf(userData.get().getUserId()));
+//        logger.trace(String.valueOf(userData.get().getUserId()));
 
         // TODO: reviews needs an endpoint for searching by Author
         // current implementation simply aggregates all reviews and returns
@@ -194,10 +194,13 @@ public class UserController
 //            }
 //        })
 
-        logger.trace("=========== END [GET] User's Destinations by Recommendations ============= ");
         if (destinations.size() < 1) {
+            logger.trace("Returning NULL");
+            logger.trace("=========== END [GET] User's Destinations by Recommendations ============= ");
             return new ResponseEntity<>(destinations, HttpStatus.NO_CONTENT);
         } else {
+            logger.trace("Returning NON-NULL");
+            logger.trace("=========== END [GET] User's Destinations by Recommendations ============= ");
             return new ResponseEntity<>(destinations, HttpStatus.OK);
         }
     }
@@ -279,6 +282,7 @@ public class UserController
      * @return
      * @throws JSONException
      */
+//    @ExceptionHandler(User.class)
     @GetMapping("/users/{user_id}")
     public ResponseEntity<User> getUserById(@PathVariable("user_id") int user_id) throws JSONException {
         Optional<User> userData = userRepository.findById(user_id);
@@ -304,29 +308,33 @@ public class UserController
                 logger.error("POST create a new user: existing email");
                 return new ResponseEntity<>(null, HttpStatus.PRECONDITION_FAILED);
             }
-
+            else {logger.trace("Valid email");}
             if (!isValidPassword(user.getPassword()) && !DEBUG) {
                 logger.error("POST create a new user: invalid password");
                 return new ResponseEntity<>(null, HttpStatus.PRECONDITION_FAILED);
-            }
-            User newUser = new User(
-                    user.getEmail(),
-                    user.getPassword(),
-                    user.isAdmin(),
-                    user.getUsername(),
-                    user.getFirstName(),
-                    user.getLastName());
-            System.out.println(newUser);
+            } else { logger.trace("Valid password");}
+            User newUser = new User();
+//            newUser.setUserId(user.getUserId());
+            newUser.setAdmin(user.isAdmin());
+            newUser.setEmail(user.getEmail());
+            newUser.setPassword(user.getPassword());
+            newUser.setUsername(user.getUsername());
+            newUser.setFirstName(user.getFirstName());
+            newUser.setLastName(user.getLastName());
+            logger.trace("User created: " + newUser.toString());
+//            System.out.println(newUser);
             User _user = userRepository
                     .save(
-                            new User(
-                                    user.getEmail(),
-                                    user.getPassword(),
-                                    user.isAdmin(),
-                                    user.getUsername(),
-                                    user.getFirstName(),
-                                    user.getLastName()
-                            ));
+                            newUser
+//                            new User(
+//                                    userId, user.getEmail(),
+//                                    user.getPassword(),
+//                                    user.isAdmin(),
+//                                    user.getUsername(),
+//                                    user.getFirstName(),
+//                                    user.getLastName()
+//                            )
+                    );
 
             return new ResponseEntity<>(_user, HttpStatus.CREATED);
         } catch (Exception e) {
@@ -410,7 +418,7 @@ public class UserController
      ********************************************************/
 
     public boolean isValidPassword(String password) {
-        logger.trace("Home method accessed");
+        logger.trace("Pass validation method accessed");
         String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,20}$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(password);
