@@ -6,11 +6,15 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "recommendations")
+@Table(
+//        schema = "micro",
+        name = "recommendations"
+)
 @Data
 public class Recommendation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recommendationId;
 
     @NotBlank

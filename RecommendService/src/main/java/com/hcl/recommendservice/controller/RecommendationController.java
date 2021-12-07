@@ -42,7 +42,7 @@ public class RecommendationController {
     //troubleshoot better logging for this request, or just switch to Evan's implementation
     @GetMapping("/recommendations/{id}")
     public Recommendation getRecommendationById(@PathVariable(value = "id") Long recommendationId)
-        throws RecommendationNotFoundException {
+            throws RecommendationNotFoundException {
         logger.trace("get-by-id method accessed");
         return recommendationRepository.findById(recommendationId)
                 .orElseThrow(() -> new RecommendationNotFoundException(recommendationId));
@@ -51,8 +51,8 @@ public class RecommendationController {
     //Create a recommendation
     @PostMapping("/recommendations")
     public Recommendation createRecommendation(@Valid @RequestBody Recommendation recommendation) {
-            logger.trace("Add method accessed");
-            return recommendationRepository.save(recommendation);
+        logger.trace("Add method accessed");
+        return recommendationRepository.save(recommendation);
     }
 
     //Update recommendation

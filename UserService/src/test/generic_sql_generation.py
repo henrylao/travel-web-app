@@ -5,7 +5,8 @@ np.random.seed(777)
 STR_FILL_1 = "ipsum lorem"
 STR_FILL_2 = "foo bar"
 QUANTITY = 100
-CREATE_SQL = """create table reviews
+CREATE_DB_SQL = """CREATE DATABASE IF NOT EXISTS micro;\n"""
+CREATE_TABLE_SQL = """create table reviews
                 (
                     id             int auto_increment
                         primary key,
@@ -24,13 +25,14 @@ base_sql = """insert into `Users`(
     `email`
 
 ) VALUES (
-             "{}","{}",{},"{}","{}","{}"
+             '{}','{}',{},'{}','{}','{}'
 );
 """
 with open("test_users.sql", "w") as fh:
     for i in range(1, QUANTITY + 1):
         if i == 0:
-            fh.write(CREATE_SQL)
+            fh.write(CREATE_DB_SQL)
+            fh.write(CREATE_TABLE_SQL)
         u = "testUser{}".format(i)
         a, b = np.random.randint(1, 50), np.random.randint(100, 150)
         p = "Hello@World{}{}".format(a, b)

@@ -27,4 +27,14 @@ public class Utility {
         return String.valueOf(response.getBody());
     }
 
+    public static String getJSONAtEndpoint(String uriEndpoint, int port, String resourceNameAndOrExtension) {
+//        final String uri = String.format("http://localhost:%d//%s//%s", port, resourceName, extension);
+        final String uri = String.format(uriEndpoint, port,resourceNameAndOrExtension);
+        logger.trace(uri);
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.getForEntity(uri, String.class);
+        logger.trace(String.valueOf(response));
+        return String.valueOf(response.getBody());
+    }
+
 }

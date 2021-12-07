@@ -217,10 +217,9 @@ public class UserController
         String resourceStr = "recommendations";
         // TODO: add GET to Review REST API endpoint to query by author == user_id
         String reviewsJsonStr = Utility.getJSONAtEndpoint(
-                "http://localhost:%d//%s//%s",
+                "http://localhost:%d//%s",
                 8095,
-                "recommendations",
-                ""
+                "recommendations"
         );
         logger.trace(String.format("JSON %s:", resourceStr) + reviewsJsonStr);
 

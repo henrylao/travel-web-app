@@ -1,4 +1,4 @@
-
+use micro;
 create table user_table
 (
     user_id    INT          not null auto_increment,

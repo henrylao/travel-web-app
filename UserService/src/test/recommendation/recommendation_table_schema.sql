@@ -1,6 +1,8 @@
+use micro;
 CREATE TABLE recommendations
 (
-    recommendation_id BIGINT   AUTO_INCREMENT    NOT NULL,
+    recommendation_id BIGINT auto_increment
+        NOT NULL,
     dest_id           BIGINT       NULL,
     author            VARCHAR(255) NULL,
     rate              INT          NULL,

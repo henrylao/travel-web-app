@@ -7,18 +7,15 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="DestinationService" />
         <module name="RecommendService" />
-        <module name="EurekaServiceRegistry" />
-        <module name="ReviewService" />
         <module name="UserService" />
+        <module name="ReviewService" />
         <module name="EurekaService" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="DestinationService" target="1.8" />
       <module name="EurekaService" target="11" />
-      <module name="EurekaServiceRegistry" target="11" />
       <module name="RecommendService" target="11" />
       <module name="ReviewService" target="11" />
       <module name="UserService" target="11" />
@@ -28,7 +25,6 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="DestinationService" options="-parameters" />
       <module name="EurekaService" options="-parameters" />
-      <module name="EurekaServiceRegistry" options="-parameters" />
       <module name="RecommendService" options="-parameters" />
       <module name="ReviewService" options="-parameters" />
       <module name="UserService" options="-parameters" />

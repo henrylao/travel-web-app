@@ -3,8 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/DestinationService/DestinationService.iml" filepath="$PROJECT_DIR$/DestinationService/DestinationService.iml" />
-      <module fileurl="file://$PROJECT_DIR$/EurekaServiceRegistry/EurekaService.iml" filepath="$PROJECT_DIR$/EurekaServiceRegistry/EurekaService.iml" />
-      <module fileurl="file://$PROJECT_DIR$/EurekaService/EurekaServiceRegistry.iml" filepath="$PROJECT_DIR$/EurekaService/EurekaServiceRegistry.iml" />
+      <module fileurl="file://$PROJECT_DIR$/EurekaService/EurekaService.iml" filepath="$PROJECT_DIR$/EurekaService/EurekaService.iml" />
       <module fileurl="file://$PROJECT_DIR$/RecommendService/RecommendService.iml" filepath="$PROJECT_DIR$/RecommendService/RecommendService.iml" />
       <module fileurl="file://$PROJECT_DIR$/ReviewService/ReviewService.iml" filepath="$PROJECT_DIR$/ReviewService/ReviewService.iml" />
       <module fileurl="file://$PROJECT_DIR$/UserService/UserService.iml" filepath="$PROJECT_DIR$/UserService/UserService.iml" />

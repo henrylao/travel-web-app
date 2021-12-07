@@ -1,3 +1,4 @@
+use micro;
 create table reviews
                 (
                     id             int auto_increment

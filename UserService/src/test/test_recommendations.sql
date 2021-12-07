@@ -1,4 +1,4 @@
-
+use micro;
 CREATE TABLE recommendations
 (
     recommendation_id BIGINT   AUTO_INCREMENT    NOT NULL,
@@ -9,6 +9,7 @@ CREATE TABLE recommendations
     CONSTRAINT pk_recommendations PRIMARY KEY (recommendation_id)
 );
 
+use micro;
 
 insert into `recommendations`(
         `dest_id`,
