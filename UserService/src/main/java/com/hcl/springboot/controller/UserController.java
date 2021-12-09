@@ -23,7 +23,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 // TODO: segment the class into handlers for the various HTTP Methods to reduce code footprint
-@CrossOrigin(origins = "http://localhost:8080")
+//@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("/api/v1")
 public class UserController
@@ -137,6 +137,17 @@ public class UserController
         }
     }
 
+////    public ResponseEntity<Map<String, List<Object>>> getUser
+//    public ResponseEntity<List<Recommendation>> getRecommendations(@PathVariable("used_id") Integer user_id){
+//        logger.trace("=========== START [GET] User's Recommendations ============= ");
+//
+//
+//
+//
+//        logger.trace("=========== END [GET] User's Recommendations ============= ");
+//
+//    }
+
     /**
      * GET Method for accessing the list of Destinations based upon Recommendations
      * associated with the User
@@ -193,6 +204,10 @@ public class UserController
 //                o1.get
 //            }
 //        })
+
+        // TODO: interpretation of a Recommendation signal needs refinement. Each recommendation should be an output signal from some variation of weighted sum of a review score
+        //  or a 1-1 association w/ a review OR the result of the most RECENTLY updated set of Reviews therefore it is
+        //  is a new output signal for Month-X or Week-Y
 
         logger.trace("=========== END [GET] User's Destinations by Recommendations ============= ");
         if (destinations.size() < 1) {
@@ -309,24 +324,34 @@ public class UserController
                 logger.error("POST create a new user: invalid password");
                 return new ResponseEntity<>(null, HttpStatus.PRECONDITION_FAILED);
             }
-            User newUser = new User(
-                    user.getEmail(),
-                    user.getPassword(),
-                    user.isAdmin(),
-                    user.getUsername(),
-                    user.getFirstName(),
-                    user.getLastName());
+//            User newUser = new User(
+////                    user.
+//                    user.getEmail(),
+//                    user.getPassword(),
+//                    user.isAdmin(),
+//                    user.getUsername(),
+//                    user.getFirstName(),
+//                    user.getLastName());
+            User newUser = new User();
+//            newUser.
+            newUser.setEmail(user.getEmail());
+            newUser.setPassword(user.getPassword());
+            newUser.setUsername(user.getUsername());
+            newUser.setLastName(user.getLastName());
+            newUser.setFirstName(user.getFirstName());
+//            new
             System.out.println(newUser);
             User _user = userRepository
                     .save(
-                            new User(
-                                    user.getEmail(),
-                                    user.getPassword(),
-                                    user.isAdmin(),
-                                    user.getUsername(),
-                                    user.getFirstName(),
-                                    user.getLastName()
-                            ));
+//                            new User(
+//                                    user.getEmail(),
+//                                    user.getPassword(),
+//                                    user.isAdmin(),
+//                                    user.getUsername(),
+//                                    user.getFirstName(),
+//                                    user.getLastName())
+                            newUser
+                    );
 
             return new ResponseEntity<>(_user, HttpStatus.CREATED);
         } catch (Exception e) {

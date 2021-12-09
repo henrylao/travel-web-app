@@ -1,4 +1,4 @@
-use micro;
+# use micro;
 CREATE TABLE recommendations
 (
     recommendation_id BIGINT   AUTO_INCREMENT    NOT NULL,

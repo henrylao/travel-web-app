@@ -10,7 +10,7 @@ CREATE TABLE user_table
     username   VARCHAR(255)       NULL,
     first_name VARCHAR(255)       NULL,
     last_name  VARCHAR(255)       NULL,
-    dest_id    VARCHAR(255)       NULL,
+#     dest_id    VARCHAR(255)       NULL,
     CONSTRAINT pk_user_table PRIMARY KEY (user_id)
 );
 # create table users
